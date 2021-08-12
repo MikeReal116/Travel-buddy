@@ -1,13 +1,29 @@
 import GoogleMapReact from 'google-map-react';
 
 import useStyles from './styles';
+import { Coords } from '../../pages/Home';
 
-const Map = () => {
-  const classes = useStyles();
-  const coordinates = {
-    lat: 0,
-    lng: 0
+type PropType = {
+  coordinates: {
+    lat: number;
+    lng: number;
   };
+  setBounds: React.Dispatch<
+    React.SetStateAction<{
+      ne: Coords;
+      sw: Coords;
+    }>
+  >;
+  setCoordinates: React.Dispatch<
+    React.SetStateAction<{
+      lng: number;
+      lat: number;
+    }>
+  >;
+};
+
+const Map = ({ coordinates, setBounds, setCoordinates }: PropType) => {
+  const classes = useStyles();
 
   const mapOptions = {
     panControl: false,
@@ -24,7 +40,10 @@ const Map = () => {
         center={coordinates}
         options={mapOptions}
         onClick={() => {}}
-        onChange={() => {}}
+        onChange={(e) => {
+          setCoordinates({ ...e.center });
+          setBounds({ ne: { ...e.bounds.ne }, sw: { ...e.bounds.sw } });
+        }}
         onChildClick={() => {}}
       ></GoogleMapReact>
     </div>
