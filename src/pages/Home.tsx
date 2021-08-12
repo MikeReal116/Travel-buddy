@@ -17,13 +17,9 @@ const Home = () => {
     lat: 0,
     lng: 0
   });
-  const [bounds, setBounds] = useState<{ ne: Coords; sw: Coords }>({
-    ne: { lng: 0, lat: 0 },
-    sw: { lng: 0, lat: 0 }
-  });
   const { data, error } = useHttp(
-    'https://travel-advisor.p.rapidapi.com/restaurants/list-in-boundary',
-    bounds
+    'https://travel-advisor.p.rapidapi.com/restaurants/list-by-latlng',
+    coordinates
   );
 
   useEffect(() => {
@@ -33,8 +29,6 @@ const Home = () => {
       }
     );
   }, []);
-
-  console.log(data, error);
 
   return (
     <>
@@ -47,11 +41,7 @@ const Home = () => {
           <List />
         </Grid>
         <Grid item xs={12} md={8}>
-          <Map
-            coordinates={coordinates}
-            setCoordinates={setCoordinates}
-            setBounds={setBounds}
-          />
+          <Map coordinates={coordinates} setCoordinates={setCoordinates} />
         </Grid>
       </Grid>
     </>
