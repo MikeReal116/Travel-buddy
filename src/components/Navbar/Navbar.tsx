@@ -4,7 +4,7 @@ import Typography from '@material-ui/core/Typography';
 import InputBase from '@material-ui/core/InputBase';
 import SearchIcon from '@material-ui/icons/Search';
 
-import useStyles from './style';
+import useStyles from './styles';
 
 const Navbar = () => {
   const classes = useStyles();
