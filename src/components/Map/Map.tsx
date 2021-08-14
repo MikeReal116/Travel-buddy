@@ -1,13 +1,25 @@
 import GoogleMapReact from 'google-map-react';
 
 import useStyles from './styles';
+import { PlaceType } from '../../custom-hooks/useHttp';
+import Marker from '../Marker';
 
-const Map = () => {
-  const classes = useStyles();
-  const coordinates = {
-    lat: 0,
-    lng: 0
+type PropType = {
+  coordinates: {
+    lat: number;
+    lng: number;
   };
+  setCoordinates: React.Dispatch<
+    React.SetStateAction<{
+      lng: number;
+      lat: number;
+    }>
+  >;
+  places: PlaceType[];
+};
+
+const Map = ({ coordinates, setCoordinates, places }: PropType) => {
+  const classes = useStyles();
 
   const mapOptions = {
     panControl: false,
@@ -16,17 +28,27 @@ const Map = () => {
 
   return (
     <div className={classes.root}>
-      <GoogleMapReact
-        bootstrapURLKeys={{ key: process.env.REACT_APP_GOOGLE_API as string }}
-        defaultCenter={coordinates}
-        defaultZoom={11}
-        margin={[50, 50, 50, 50]}
-        center={coordinates}
-        options={mapOptions}
-        onClick={() => {}}
-        onChange={() => {}}
-        onChildClick={() => {}}
-      ></GoogleMapReact>
+      {coordinates.lat && (
+        <GoogleMapReact
+          bootstrapURLKeys={{ key: process.env.REACT_APP_GOOGLE_API as string }}
+          defaultZoom={11}
+          margin={[50, 50, 50, 50]}
+          center={coordinates}
+          options={mapOptions}
+          onClick={() => {}}
+          onChange={(e) => {
+            setCoordinates({ ...e.center });
+          }}
+          onChildClick={(child) => {
+            console.log(child);
+          }}
+        >
+          {places.length !== 0 &&
+            places.map((place, i) => (
+              <Marker key={i} lng={place.longitude} lat={place.latitude} />
+            ))}
+        </GoogleMapReact>
+      )}
     </div>
   );
 };
