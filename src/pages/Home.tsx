@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { CssBaseline } from '@material-ui/core';
+import { CssBaseline, Typography } from '@material-ui/core';
 import Grid from '@material-ui/core/Grid';
 
 import Navbar from '../components/Navbar/Navbar';
@@ -17,7 +17,7 @@ const Home = () => {
     lat: 0,
     lng: 0
   });
-  const { data, error } = useHttp(
+  const { data, error, loading } = useHttp(
     'https://travel-advisor.p.rapidapi.com/restaurants/list-by-latlng',
     coordinates
   );
@@ -33,15 +33,20 @@ const Home = () => {
   return (
     <>
       <CssBaseline />
+      {error && <Typography>{error}</Typography>}
       <Grid container spacing={1}>
         <Grid item xs={12}>
           <Navbar />
         </Grid>
         <Grid item xs={12} md={4}>
-          <List />
+          <List places={data} loading={loading} />
         </Grid>
         <Grid item xs={12} md={8}>
-          <Map coordinates={coordinates} setCoordinates={setCoordinates} />
+          <Map
+            coordinates={coordinates}
+            setCoordinates={setCoordinates}
+            places={data}
+          />
         </Grid>
       </Grid>
     </>

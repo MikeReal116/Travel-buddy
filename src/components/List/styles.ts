@@ -6,7 +6,12 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
   formControl: {
     minWidth: 120,
-    marginRight: theme.spacing(3)
+    marginRight: theme.spacing(3),
+    marginBottom: theme.spacing(3)
+  },
+  listDetail: {
+    height: '75vh',
+    overflow: 'auto'
   }
 }));
 

@@ -1,6 +1,8 @@
 import GoogleMapReact from 'google-map-react';
 
 import useStyles from './styles';
+import { PlaceType } from '../../custom-hooks/useHttp';
+import Marker from '../Marker';
 
 type PropType = {
   coordinates: {
@@ -13,9 +15,10 @@ type PropType = {
       lat: number;
     }>
   >;
+  places: PlaceType[];
 };
 
-const Map = ({ coordinates, setCoordinates }: PropType) => {
+const Map = ({ coordinates, setCoordinates, places }: PropType) => {
   const classes = useStyles();
 
   const mapOptions = {
@@ -34,11 +37,17 @@ const Map = ({ coordinates, setCoordinates }: PropType) => {
           options={mapOptions}
           onClick={() => {}}
           onChange={(e) => {
-            console.log(coordinates);
             setCoordinates({ ...e.center });
           }}
-          onChildClick={() => {}}
-        ></GoogleMapReact>
+          onChildClick={(child) => {
+            console.log(child);
+          }}
+        >
+          {places.length !== 0 &&
+            places.map((place, i) => (
+              <Marker key={i} lng={place.longitude} lat={place.latitude} />
+            ))}
+        </GoogleMapReact>
       )}
     </div>
   );

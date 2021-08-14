@@ -1,16 +1,50 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 
-const GetData = <T>(
+export type Img = {
+  large: {
+    url: string;
+  };
+  medium: {
+    url: string;
+  };
+  original: {
+    url: string;
+  };
+  small: {
+    url: string;
+  };
+};
+
+export type PlaceType = {
+  name: string;
+  address: string;
+  photo?: {
+    images: Img;
+  };
+  rating: string;
+  num_reviews: string;
+  ranking: string;
+  web_url: string;
+  website: string;
+  phone: string;
+  is_closed: boolean;
+  latitude: string;
+  longitude: string;
+};
+
+const GetData = (
   url: string,
   coordinates: { lat: number; lng: number }
-): { data: T[]; error: string } => {
-  const [data, setData] = useState<T[]>([]);
+): { data: PlaceType[]; error: string; loading: boolean } => {
+  const [data, setData] = useState<PlaceType[]>([]);
   const [error, setError] = useState(' ');
+  const [loading, setLoading] = useState(false);
   const { lat, lng } = coordinates;
   useEffect(() => {
     const fetchData = async () => {
       try {
+        setLoading(true);
         const { data } = await axios.get(url, {
           params: {
             longitude: lng,
@@ -22,14 +56,16 @@ const GetData = <T>(
           }
         });
         setData(data.data);
+        setLoading(false);
       } catch (error) {
         setError(error.message);
+        setLoading(false);
       }
     };
     fetchData();
   }, [url, lng, lat]);
 
-  return { data, error };
+  return { data, error, loading };
 };
 
 export default GetData;
