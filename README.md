@@ -1,6 +1,6 @@
 # Getting Started with Create React App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A travel app that uses google map to display a list of restaurants based on the selected location on  the map
 
 ## Available Scripts
 
