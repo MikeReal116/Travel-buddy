@@ -33,7 +33,7 @@ export type PlaceType = {
   longitude: string;
 };
 
-const GetData = (
+const useHttp = (
   url: string,
   coordinates: { lat: number; lng: number }
 ): { data: PlaceType[]; error: string; loading: boolean } => {
@@ -68,4 +68,4 @@ const GetData = (
   return { data, error, loading };
 };
 
-export default GetData;
+export default useHttp;
