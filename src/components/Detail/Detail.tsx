@@ -9,7 +9,7 @@ import LocationOnIcon from '@material-ui/icons/LocationOn';
 import { Rating } from '@material-ui/lab';
 
 import useStyles from './styles';
-import { Img } from '../../custom-hooks/useHttp';
+import { Img } from '../../lib/types';
 
 type PropType = {
   image: Img | undefined;

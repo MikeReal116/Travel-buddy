@@ -6,6 +6,7 @@ import Navbar from '../components/Navbar/Navbar';
 import Map from '../components/Map/Map';
 import List from '../components/List/List';
 import useHttp from '../custom-hooks/useHttp';
+import { PlaceType } from '../lib/types';
 
 export type Coords = {
   lng: number;
@@ -17,7 +18,7 @@ const Home = () => {
     lat: 0,
     lng: 0
   });
-  const { data, error, loading } = useHttp(
+  const { data, error, loading } = useHttp<PlaceType[]>(
     'https://travel-advisor.p.rapidapi.com/restaurants/list-by-latlng',
     coordinates
   );
@@ -34,21 +35,23 @@ const Home = () => {
     <>
       <CssBaseline />
       {error && <Typography>{error}</Typography>}
-      <Grid container spacing={1}>
-        <Grid item xs={12}>
-          <Navbar />
+      {data && (
+        <Grid container spacing={1}>
+          <Grid item xs={12}>
+            <Navbar />
+          </Grid>
+          <Grid item xs={12} md={4}>
+            <List places={data} loading={loading} />
+          </Grid>
+          <Grid item xs={12} md={8}>
+            <Map
+              coordinates={coordinates}
+              setCoordinates={setCoordinates}
+              places={data}
+            />
+          </Grid>
         </Grid>
-        <Grid item xs={12} md={4}>
-          <List places={data} loading={loading} />
-        </Grid>
-        <Grid item xs={12} md={8}>
-          <Map
-            coordinates={coordinates}
-            setCoordinates={setCoordinates}
-            places={data}
-          />
-        </Grid>
-      </Grid>
+      )}
     </>
   );
 };

@@ -8,8 +8,9 @@ import Box from '@material-ui/core/Box';
 import { CircularProgress } from '@material-ui/core';
 
 import useStyles from './styles';
-import { PlaceType } from '../../custom-hooks/useHttp';
+
 import Detail from '../Detail/Detail';
+import { PlaceType } from '../../lib/types';
 
 type PropType = {
   loading: boolean;
