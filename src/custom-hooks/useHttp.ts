@@ -1,43 +1,17 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 
-export type Img = {
-  large: {
-    url: string;
-  };
-  medium: {
-    url: string;
-  };
-  original: {
-    url: string;
-  };
-  small: {
-    url: string;
-  };
-};
-
-export type PlaceType = {
-  name: string;
-  address: string;
-  photo?: {
-    images: Img;
-  };
-  rating: string;
-  num_reviews: string;
-  ranking: string;
-  web_url: string;
-  website: string;
-  phone: string;
-  is_closed: boolean;
-  latitude: string;
-  longitude: string;
-};
-
-const useHttp = (
-  url: string,
-  coordinates: { lat: number; lng: number }
-): { data: PlaceType[]; error: string; loading: boolean } => {
-  const [data, setData] = useState<PlaceType[]>([]);
+interface Coordinates {
+  lat: number;
+  lng: number;
+}
+interface ReturnData<TData> {
+  data: TData | null;
+  error: string;
+  loading: boolean;
+}
+const useHttp = <T>(url: string, coordinates: Coordinates): ReturnData<T> => {
+  const [data, setData] = useState<T | null>(null);
   const [error, setError] = useState(' ');
   const [loading, setLoading] = useState(false);
   const { lat, lng } = coordinates;

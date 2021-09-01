@@ -1,8 +1,8 @@
 import GoogleMapReact from 'google-map-react';
 
 import useStyles from './styles';
-import { PlaceType } from '../../custom-hooks/useHttp';
 import Marker from '../Marker';
+import { PlaceType } from '../../lib/types';
 
 type PropType = {
   coordinates: {
